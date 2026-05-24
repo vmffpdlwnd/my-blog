@@ -6,95 +6,8 @@
   <title>공부 블로그</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #f8f6f2; --surface: #ffffff; --border: #e5e0d8;
-      --text-primary: #1c1917; --text-secondary: #57534e; --text-muted: #a8a29e;
-      --accent: #c2410c;
-      --tag-network: #dbeafe; --tag-network-text: #1e40af;
-      --tag-정처기: #dcfce7;  --tag-정처기-text: #166534;
-      --tag-linux:  #fef3c7;  --tag-linux-text:  #92400e;
-    }
-
-    body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; }
-
-    /* Header */
-    header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
-    .header-inner { max-width: 860px; margin: 0 auto; padding: 0 28px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--text-primary); text-decoration: none; }
-    .logo em { color: var(--accent); font-style: normal; }
-    .header-meta { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-
-    /* Hero */
-    .hero { max-width: 860px; margin: 0 auto; padding: 72px 28px 56px; }
-    .hero-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
-    .hero-title { font-family: 'Noto Serif KR', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 700; line-height: 1.25; margin-bottom: 16px; }
-    .hero-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.7; max-width: 480px; }
-
-    /* Stats */
-    .stats { max-width: 860px; margin: 0 auto; padding: 0 28px 40px; display: flex; gap: 32px; }
-    .stat { display: flex; flex-direction: column; gap: 2px; }
-    .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 500; color: var(--text-primary); }
-    .stat-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; }
-
-    .divider { max-width: 860px; margin: 0 auto; border: none; border-top: 1px solid var(--border); }
-
-    /* Filter */
-    .filter-wrap { max-width: 860px; margin: 0 auto; padding: 24px 28px; display: flex; gap: 8px; flex-wrap: wrap; }
-    .filter-btn {
-      padding: 7px 18px; border-radius: 999px; border: 1px solid var(--border);
-      background: var(--surface); color: var(--text-secondary);
-      font-family: 'Noto Sans KR', sans-serif; font-size: 13px;
-      cursor: pointer; transition: all 0.18s ease;
-    }
-    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 500; }
-
-    /* List header: 카운트 + 정렬 */
-    .list-header {
-      max-width: 860px; margin: 0 auto; padding: 0 28px 16px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .list-info { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
-    .list-info em { color: var(--text-primary); font-style: normal; font-weight: 500; }
-    .sort-select {
-      font-family: 'Noto Sans KR', sans-serif; font-size: 12px;
-      color: var(--text-secondary); background: var(--surface);
-      border: 1px solid var(--border); border-radius: 6px;
-      padding: 5px 10px; cursor: pointer; outline: none;
-      transition: border-color 0.15s;
-    }
-    .sort-select:hover { border-color: var(--accent); }
-
-    /* Post list */
-    .post-list { max-width: 860px; margin: 0 auto; padding: 0 28px 80px; display: flex; flex-direction: column; list-style: none; }
-    .post-item {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 0; border-bottom: 1px solid var(--border);
-      text-decoration: none; color: inherit; transition: all 0.15s ease; gap: 16px;
-    }
-    .post-item:hover .post-title { color: var(--accent); }
-    .post-item:hover .post-arrow { transform: translateX(4px); color: var(--accent); }
-    .post-left { display: flex; align-items: center; gap: 8px; min-width: 0; flex-wrap: wrap; }
-    .post-tag { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
-    .post-tag.network { background: var(--tag-network); color: var(--tag-network-text); }
-    .post-tag.정처기   { background: var(--tag-정처기);  color: var(--tag-정처기-text); }
-    .post-tag.linux   { background: var(--tag-linux);   color: var(--tag-linux-text); }
-    .pin-icon { font-size: 12px; flex-shrink: 0; }
-    .post-title { font-size: 15px; font-weight: 500; color: var(--text-primary); transition: color 0.15s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .post-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
-    .post-date { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
-    .post-arrow { font-size: 16px; color: var(--text-muted); transition: all 0.15s ease; }
-
-    .empty-msg { max-width: 860px; margin: 0 auto; padding: 60px 28px; text-align: center; color: var(--text-muted); font-size: 14px; display: none; }
-
-    @media (max-width: 560px) {
-      .post-date { display: none; }
-      .hero-title { font-size: 26px; }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/common.css" />
+  <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
 
@@ -124,12 +37,10 @@
 
   <hr class="divider" />
 
-  <!-- 필터 버튼: JS가 posts.json 카테고리 기반으로 자동 생성 -->
   <div class="filter-wrap" id="filter-wrap"></div>
 
   <hr class="divider" />
 
-  <!-- 카운트 + 정렬 -->
   <div class="list-header">
     <span class="list-info" id="list-info"></span>
     <select class="sort-select" id="sort-select" aria-label="정렬 방식 선택">
@@ -141,116 +52,6 @@
   <ul class="post-list" id="post-list"></ul>
   <p class="empty-msg" id="empty-msg">해당 카테고리에 글이 없습니다.</p>
 
-  <script>
-    let allPosts    = [];
-    let currentFilter = 'all';
-    let currentSort   = 'newest';
-
-    const categoryLabel = { all: '전체', network: '네트워크', '정처기': '정처기', linux: '리눅스' };
-    const tagClass      = { network: 'network', '정처기': '정처기', linux: 'linux' };
-
-    // data/posts.json 로드
-    fetch('data/posts.json')
-      .then(r => r.json())
-      .then(data => {
-        allPosts = data;
-        init();
-      })
-      .catch(() => {
-        document.getElementById('empty-msg').style.display = 'block';
-        document.getElementById('empty-msg').textContent = 'data/posts.json을 찾을 수 없습니다. scripts/build.js를 먼저 실행하세요.';
-      });
-
-    function init() {
-      // 카테고리 목록 추출 (중복 제거)
-      const catSet = new Set();
-      allPosts.forEach(p => p.category.split(' ').forEach(c => catSet.add(c)));
-      const categories = [...catSet];
-
-      // stat 업데이트
-      document.getElementById('stat-total').textContent = allPosts.length;
-      document.getElementById('stat-cat').textContent   = categories.length;
-
-      // 필터 버튼 생성
-      const wrap = document.getElementById('filter-wrap');
-      const allBtn = makeFilterBtn('all', '전체');
-      wrap.appendChild(allBtn);
-      categories.forEach(cat => wrap.appendChild(makeFilterBtn(cat, categoryLabel[cat] || cat)));
-
-      // 정렬 이벤트
-      document.getElementById('sort-select').addEventListener('change', e => {
-        currentSort = e.target.value;
-        render();
-      });
-
-      render();
-    }
-
-    function makeFilterBtn(filter, label) {
-      const btn = document.createElement('button');
-      btn.className = 'filter-btn' + (filter === 'all' ? ' active' : '');
-      btn.dataset.filter = filter;
-      btn.textContent = label;
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = filter;
-        render();
-      });
-      return btn;
-    }
-
-    function render() {
-      // 필터
-      let filtered = allPosts.filter(p => {
-        if (currentFilter === 'all') return true;
-        return p.category.split(' ').includes(currentFilter);
-      });
-
-      // 정렬 (pinned 글은 항상 상단 고정)
-      filtered.sort((a, b) => {
-        if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-        const diff = new Date(b.date) - new Date(a.date);
-        return currentSort === 'newest' ? diff : -diff;
-      });
-
-      // list-info 텍스트
-      const catName = categoryLabel[currentFilter] || currentFilter;
-      const infoEl  = document.getElementById('list-info');
-      infoEl.innerHTML = currentFilter === 'all'
-        ? `전체 <em>${filtered.length}</em>개의 글`
-        : `<em>${catName}</em>의 글 <em>${filtered.length}</em>개`;
-
-      // 목록 렌더링
-      const list = document.getElementById('post-list');
-      list.innerHTML = '';
-
-      filtered.forEach(post => {
-        const cats = post.category.split(' ');
-        const tags = cats.map(c =>
-          `<span class="post-tag ${tagClass[c] || ''}">${categoryLabel[c] || c}</span>`
-        ).join('');
-
-        const pin = post.pinned ? `<span class="pin-icon">📌</span>` : '';
-
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <a class="post-item" href="${post.path}">
-            <div class="post-left">
-              ${pin}${tags}
-              <span class="post-title">${post.title}</span>
-            </div>
-            <div class="post-right">
-              <span class="post-date">${post.date}</span>
-              <span class="post-arrow">→</span>
-            </div>
-          </a>`;
-        list.appendChild(li);
-      });
-
-      document.getElementById('empty-msg').style.display = filtered.length === 0 ? 'block' : 'none';
-    }
-  </script>
-
+  <script src="assets/main.js"></script>
 </body>
 </html>

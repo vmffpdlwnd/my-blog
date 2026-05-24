@@ -7,82 +7,28 @@
   <title>글 제목 | dev.log</title>
   <!-- ✏️ 날짜 수정 -->
   <meta name="date" content="2026-05-22" />
-  <!-- ✏️ 카테고리 수정: network | 정처기 | linux (복수: "network 정처기") -->
+  <!-- ✏️ 카테고리: network | 정처기 | linux (복수: "network 정처기") -->
   <meta name="category" content="network" />
-  <!-- ✏️ 고정글 여부: true | false -->
+  <!-- ✏️ 상단 고정: true | false -->
   <meta name="pinned" content="false" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #f8f6f2; --surface: #ffffff; --border: #e5e0d8;
-      --text-primary: #1c1917; --text-secondary: #57534e; --text-muted: #a8a29e;
-      --accent: #c2410c; --code-bg: #f1f0ed;
-      --tag-network: #dbeafe; --tag-network-text: #1e40af;
-      --tag-정처기: #dcfce7;  --tag-정처기-text: #166534;
-      --tag-linux: #fef3c7;  --tag-linux-text: #92400e;
-    }
-    body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; }
-
-    /* Header */
-    header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
-    .header-inner { max-width: 860px; margin: 0 auto; padding: 0 28px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--text-primary); text-decoration: none; }
-    .logo em { color: var(--accent); font-style: normal; }
-    .back-link { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
-    .back-link:hover { color: var(--accent); }
-
-    /* Post Header */
-    .post-header { max-width: 720px; margin: 0 auto; padding: 60px 28px 40px; }
-    .post-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .post-tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 500; }
-    .post-tag.network { background: var(--tag-network); color: var(--tag-network-text); }
-    .post-tag.정처기  { background: var(--tag-정처기);  color: var(--tag-정처기-text); }
-    .post-tag.linux   { background: var(--tag-linux);   color: var(--tag-linux-text); }
-    .post-date { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
-    .post-title { font-family: 'Noto Serif KR', serif; font-size: clamp(24px, 4vw, 34px); font-weight: 700; line-height: 1.3; margin-bottom: 16px; }
-    .post-subtitle { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
-
-    .divider { max-width: 720px; margin: 0 auto; padding: 0 28px; border: none; border-top: 1px solid var(--border); }
-
-    /* Post Body */
-    .post-body { max-width: 720px; margin: 0 auto; padding: 48px 28px 80px; line-height: 1.85; font-size: 15px; }
-    .post-body h2 { font-family: 'Noto Serif KR', serif; font-size: 22px; font-weight: 700; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
-    .post-body h3 { font-size: 17px; font-weight: 600; margin: 32px 0 12px; }
-    .post-body p { margin-bottom: 18px; }
-    .post-body ul, .post-body ol { padding-left: 20px; margin-bottom: 18px; }
-    .post-body li { margin-bottom: 6px; }
-    .post-body strong { font-weight: 600; }
-    .post-body em { color: var(--accent); font-style: normal; }
-    .post-body code { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--code-bg); padding: 2px 6px; border-radius: 4px; color: var(--accent); }
-    .post-body pre { background: #1c1917; color: #e7e5e4; padding: 24px; border-radius: 8px; overflow-x: auto; margin: 24px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; }
-    .post-body pre code { background: none; color: inherit; padding: 0; }
-    .post-body blockquote { border-left: 3px solid var(--accent); padding: 12px 20px; margin: 24px 0; background: #fdf8f5; border-radius: 0 6px 6px 0; color: var(--text-secondary); font-size: 14px; }
-    .post-body table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
-    .post-body th { background: var(--text-primary); color: #fff; padding: 10px 14px; text-align: left; font-weight: 500; }
-    .post-body td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
-    .post-body tr:nth-child(even) td { background: #faf9f7; }
-    .post-body hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
-
-    /* Footer */
-    .post-footer { max-width: 720px; margin: 0 auto; padding: 0 28px 80px; }
-    .back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text-secondary); font-size: 13px; text-decoration: none; transition: all 0.15s; }
-    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
-  </style>
+  <link rel="stylesheet" href="../../../assets/common.css" />
+  <!-- content/posts/카테고리/ 기준 경로 -->
+  <link rel="stylesheet" href="../../../assets/post.css" />
 </head>
 <body>
 
   <header>
     <div class="header-inner">
-      <a class="logo" href="../../index.html">dev<em>.</em>log</a>
-      <a class="back-link" href="../../index.html">← 목록으로</a>
+      <a class="logo" href="../../../index.html">dev<em>.</em>log</a>
+      <a class="back-link" href="../../../index.html">← 목록으로</a>
     </div>
   </header>
 
   <div class="post-header">
     <div class="post-meta">
-      <!-- ✏️ 카테고리 클래스 선택: network / 정처기 / linux -->
+      <!-- ✏️ 카테고리 클래스: network / 정처기 / linux, 복수면 태그 여러 개 -->
       <span class="post-tag network">네트워크</span>
       <!-- ✏️ 날짜 수정 -->
       <span class="post-date">2026-05-22</span>
@@ -104,7 +50,7 @@
   </article>
 
   <div class="post-footer">
-    <a class="back-btn" href="../../index.html">← 목록으로 돌아가기</a>
+    <a class="back-btn" href="../../../index.html">← 목록으로 돌아가기</a>
   </div>
 
 </body>

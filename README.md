@@ -1,23 +1,86 @@
-# 📝 개발 공부 블로그
+# 인프라·시스템 엔지니어 포트폴리오 & 기술 블로그
 
-공부한 내용을 HTML 기반 정적 블로그로 정리하고 GitHub Pages로 배포하는 프로젝트입니다.
+프로젝트 경험, 자격증, 기술 역량을 한눈에 보여주고 공부한 내용을 기술 아티클로 쌓는 사이트입니다.
+HTML 기반 정적 블로그로 시작해 **포트폴리오 중심 사이트로 확장 중**이며, 블로그는 보조 콘텐츠입니다.
+
+- 배포: https://vmffpdlwnd.github.io/my-blog (GitHub Pages)
+- 외부 템플릿 없이 HTML / CSS / JS로 직접 구성
+- 저장소는 공개로 운영합니다. 
+
+## 진행 현황
+
+| 구분 | 상태 |
+|------|------|
+| 정적 블로그 (목록, 카테고리 필터, 정렬, 고정글) | 완료 |
+| 이력서 (현재 `etc/이력서.html` 블로그 글 형태) | 임시 — `/resume` 페이지로 분리 예정 |
+| 포트폴리오 (Home, Projects) | 예정 |
+| Blog 메뉴 분리 | 예정 |
+| Giscus 댓글 | 예정 |
+| 노션 연동 + GitHub Actions 자동 빌드 | 예정 (마지막 단계) |
+
+## 메뉴 구조 (목표)
+
+| 메뉴 | 내용 | 비고 |
+|------|------|------|
+| Home | 한 줄 포지셔닝 소개, 기술 스택, 대표 프로젝트 2~3개, 최근 글 | 포트폴리오 중심 첫 화면 |
+| Projects | 프로젝트 카드 목록, 상세(문제 상황, 내 역할, 구성도, 사용 기술, 성과, 트러블슈팅), GitHub 링크 | 포트폴리오 핵심 |
+| Blog | 기술 글 목록, 카테고리 필터, 정렬, 고정글, 글 본문 + Giscus 댓글 | 현재 `index.html`의 글 목록을 이 메뉴로 이동 |
+| Resume | 학력, 자격증, 군 경력, 기술 스택, 프로젝트 요약 + PDF 저장 버튼 | `@media print` 적용 |
+
+## 주요 기능 (목표)
+
+1. **포트폴리오**: Home, Projects. 초기에는 코드에 직접 작성하고, 노션 연동 후 옮길지 결정합니다.
+2. **이력서 `/resume`**: A4 비율 웹 화면, `window.print()` 버튼으로 PDF 저장. `@page { size: A4 }`, `print-color-adjust: exact`, 항목 단위 `break-inside: avoid` 적용. 인쇄 시 헤더·푸터·버튼 숨김, 라이트 테마 고정.
+3. **Giscus 댓글**: GitHub 계정으로 로그인해 댓글 작성. 글 URL 기준으로 GitHub Discussions에 토론이 자동 생성됩니다.
+4. **노션 연동 블로그**: 노션 데이터베이스에서 글을 쓰면 GitHub Actions가 빌드 시점에 노션 API로 가져와 `post-template.html`과 같은 형식의 HTML로 변환합니다. 기존 HTML 글(`content/posts/`)과 노션 글이 함께 존재합니다.
+
+## 시스템 아키텍처 (목표)
+
+```
+Notion DB ──(Notion API, 토큰은 GitHub Secrets)──▶ GitHub Actions ──▶ build.js ──▶ GitHub Pages
+content/posts/*.html (기존 글) ─────────────────────────────────────▶ build.js
+방문자 댓글 ──▶ Giscus ──▶ GitHub Discussions
+```
+
+- 새 글 반영: 정해진 시간마다 자동 실행 + 수동 실행 버튼
+- 빌드 실패 시 GitHub Actions 로그로 원인 확인
+
+## 노션 데이터베이스 설계 (예정)
+
+| 노션 속성 | 타입 | 역할 | 기존 대응 |
+|-----------|------|------|-----------|
+| 제목 | Title | 글 제목 | `<title>` |
+| 날짜 | Date | 작성일, 정렬 기준 | meta date |
+| 카테고리 | Multi-select | 필터 버튼, 태그 | meta category |
+| 고정 | Checkbox | 상단 고정 | meta pinned |
+| 발행 | Checkbox | 체크한 글만 사이트에 공개 | (신규) |
+
+- 카테고리 값은 영문 키(`network`, `linux`, `jungcheoki`)로 관리하고, 화면 이름은 `assets/main.js`의 `categoryLabel`에서 매핑합니다.
+- 노션 이미지 주소는 약 1시간 뒤 만료되므로 동기화 시 내려받아 `assets/images/`에 저장하고 HTML에는 저장된 경로를 넣습니다.
+
+## 보안 원칙
+
+- 노션 토큰, 데이터베이스 ID 등 비밀 값은 코드에 넣지 않고 GitHub Secrets에만 저장합니다.
+- 저장소가 공개이므로 코드, 글, 이력서의 모든 내용이 공개됩니다. 이력서에는 공개해도 되는 연락처·주소만 기재합니다.
+- 노션의 비공개 메모는 `발행`을 체크하지 않으면 사이트에 올라가지 않습니다.
 
 ## 기술 스택
 
 | 구분 | 기술 |
 |------|------|
-| 작성 도구 | VS Code |
+| 작성 도구 | VS Code (노션 연동 후 노션 병행) |
 | 프론트엔드 | HTML / CSS / JS |
 | 데이터 | data/posts.json (자동 생성) |
 | 빌드 | Node.js (scripts/build.js) |
-| 배포 자동화 | Node.js (scripts/deploy.js) |
+| 배포 자동화 | Node.js (scripts/deploy.js) → GitHub Actions로 전환 예정 |
 | 배포 | GitHub Pages |
+| 예정 | Notion API, Giscus |
 
-## 파일 구조
+## 파일 구조 (현재)
 
 ```
 my-blog/
-├── index.html                  ← 글 목록 메인 페이지
+├── index.html                  ← 글 목록 메인 페이지 (Home 개편 시 Blog 메뉴로 이동 예정)
 ├── assets/
 │   ├── common.css              ← 공통 스타일 (색상 변수, 헤더, 카테고리 태그)
 │   ├── style.css               ← index.html 스타일
@@ -44,7 +107,7 @@ my-blog/
 npm install simple-git
 ```
 
-## 글 작성 방법
+## 글 작성 방법 (현재: HTML 직접 작성)
 
 ### 1. 템플릿 복사
 
@@ -128,15 +191,9 @@ const tagClass      = { ..., python: 'python' };
 node scripts/deploy.js
 ```
 
-## 주요 기능
+## 현재 동작 중인 기능
 
 - 카테고리 필터링 (복수 카테고리 지원)
 - 최신순 / 오래된순 정렬
 - 📌 pinned 글 상단 고정 (현재 `etc/이력서.html`이 고정글로 게시됨)
 - 전체 글 수 / 카테고리 수 자동 카운트
-
-## 배포 URL
-
-```
-https://vmffpdlwnd.github.io/my-blog
-```

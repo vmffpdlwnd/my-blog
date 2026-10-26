@@ -25,6 +25,16 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pos
 .back-link { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
 .back-link:hover { color: var(--accent); }
 
+/* ── Site Nav ── */
+.site-nav { display: flex; align-items: center; gap: 24px; }
+.site-nav a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color 0.15s; }
+.site-nav a:hover { color: var(--accent); }
+.site-nav a.active { color: var(--text-primary); font-weight: 500; }
+@media (max-width: 560px) {
+  .site-nav { gap: 14px; }
+  .site-nav a { font-size: 12px; }
+}
+
 /* ── Tags ── */
 .post-tag { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
 .post-tag.network { background: var(--tag-network); color: var(--tag-network-text); }

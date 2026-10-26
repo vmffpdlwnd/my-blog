@@ -19,6 +19,7 @@
 my-blog/
 ├── index.html                  ← 글 목록 메인 페이지
 ├── assets/
+│   ├── common.css              ← 공통 스타일 (색상 변수, 헤더, 카테고리 태그)
 │   ├── style.css               ← index.html 스타일
 │   ├── post.css                ← 글 페이지 스타일
 │   └── main.js                 ← index.html 로직 (필터링, 정렬)
@@ -33,7 +34,8 @@ my-blog/
     └── posts/
         ├── network/            ← 네트워크
         ├── 정처기/              ← 정보처리기사
-        └── linux/              ← 리눅스
+        ├── linux/              ← 리눅스
+        └── etc/                ← 기타 (이력서 등)
 ```
 
 ## 시작하기
@@ -130,7 +132,7 @@ node scripts/deploy.js
 
 - 카테고리 필터링 (복수 카테고리 지원)
 - 최신순 / 오래된순 정렬
-- 📌 pinned 글 상단 고정
+- 📌 pinned 글 상단 고정 (현재 `etc/이력서.html`이 고정글로 게시됨)
 - 전체 글 수 / 카테고리 수 자동 카운트
 
 ## 배포 URL

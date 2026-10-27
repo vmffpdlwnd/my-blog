@@ -6,6 +6,9 @@
 .section-link { display: inline-block; margin-top: 12px; font-size: 13px; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
 .section-link:hover { color: var(--accent); }
 
+/* ── Recent Posts (Home) ── */
+.recent-list { list-style: none; display: flex; flex-direction: column; }
+
 /* ── Chips (핵심 역량, 기술 스택) ── */
 .chip-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
 .chip { padding: 6px 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); font-size: 13px; color: var(--text-secondary); }
@@ -21,7 +24,7 @@
 .card-link:hover { color: var(--accent); }
 
 /* ── Resume (A4 틀) ── */
-.resume-sheet { width: 210mm; max-width: calc(100% - 56px); min-height: 297mm; margin: 32px auto 80px; padding: 18mm; background: var(--surface); border: 1px solid var(--border); }
+.resume-sheet { width: 210mm; max-width: calc(100% - 56px); min-height: 297mm; margin: 12px auto 80px; padding: 18mm; background: var(--surface); border: 1px solid var(--border); }
 .resume-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
 .resume-name { font-family: 'Noto Serif KR', serif; font-size: 28px; font-weight: 700; margin-bottom: 4px; }
 .resume-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 14px; }
@@ -34,10 +37,24 @@
 .resume-section p:last-child { margin-bottom: 0; }
 .resume-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .resume-cols h3 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.resume-actions { width: 210mm; max-width: calc(100% - 56px); margin: 24px auto 0; display: flex; justify-content: flex-end; }
+.print-btn { padding: 8px 18px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text-secondary); font-family: 'Noto Sans KR', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.print-btn:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ── Responsive ── */
 @media (max-width: 560px) {
   .resume-sheet { padding: 24px; min-height: auto; }
   .resume-top { flex-direction: column-reverse; }
   .resume-cols { grid-template-columns: 1fr; }
+}
+
+
+/* ── Print (A4) ── */
+@page { size: A4; margin: 15mm; }
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  header, .resume-actions { display: none; }
+  body { background: #fff; min-height: auto; }
+  .resume-sheet { width: auto; max-width: none; min-height: auto; margin: 0; padding: 0; border: none; }
+  .resume-section { break-inside: avoid; }
 }

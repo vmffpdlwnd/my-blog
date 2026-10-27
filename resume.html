@@ -23,6 +23,10 @@
     </div>
   </header>
 
+    <div class="resume-actions">
+      <button type="button" class="print-btn" id="print-btn">PDF로 저장</button>
+    </div>
+
   <main class="resume-sheet">
     <div class="resume-top">
       <div>
@@ -73,6 +77,10 @@
       <p>제대 후에는 인프라 엔지니어를 목표로 방향을 잡고 네트워크를 공부하기 시작했습니다. 그 결과 네트워크관리사 2급 자격증을 취득했으며, 서버를 구축하고 운영하는 쪽에 흥미를 느끼며 Oracle Cloud에서 Linux CLI 환경으로 서버를 직접 운영하며 실력을 키우고 있습니다. 정보처리기사 취득도 준비중입니다.</p>
     </section>
   </main>
+
+  <script>
+    document.getElementById('print-btn').addEventListener('click', () => window.print());
+  </script>
 
 </body>
 </html>

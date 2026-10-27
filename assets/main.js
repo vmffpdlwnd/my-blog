@@ -2,8 +2,8 @@ let allPosts    = [];
 let currentFilter = 'all';
 let currentSort   = 'newest';
 
-const categoryLabel = { all: '전체', network: '네트워크', '정처기': '정처기', linux: '리눅스', etc: '기타' };
-const tagClass      = { network: 'network', '정처기': '정처기', linux: 'linux', etc: 'etc' };
+const categoryLabel = { all: '전체', network: '네트워크', jungcheoki: '정처기', linux: '리눅스', etc: '기타' };
+const tagClass      = { network: 'network', jungcheoki: 'jungcheoki', linux: 'linux', etc: 'etc' };
 
 // data/posts.json 로드
 fetch('data/posts.json')

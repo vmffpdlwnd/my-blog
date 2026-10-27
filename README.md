@@ -96,7 +96,7 @@ my-blog/
 └── content/
     └── posts/
         ├── network/            ← 네트워크
-        ├── 정처기/              ← 정보처리기사
+        ├── jungcheoki/         ← 정보처리기사
         ├── linux/              ← 리눅스
         └── etc/                ← 기타 (이력서 등)
 ```
@@ -120,7 +120,7 @@ cp templates/post-template.html content/posts/network/OSI7계층.html
 ```html
 <title>OSI 7계층 | dev.log</title>
 <meta name="date"     content="2026-05-22" />
-<meta name="category" content="network" />        <!-- 복수: "network 정처기" -->
+<meta name="category" content="network" />        <!-- 복수: "network jungcheoki" -->
 <meta name="pinned"   content="false" />
 ```
 
@@ -132,7 +132,7 @@ cp templates/post-template.html content/posts/network/OSI7계층.html
 
 <!-- 복수 카테고리면 태그 두 개 -->
 <span class="post-tag network">네트워크</span>
-<span class="post-tag 정처기">정처기</span>
+<span class="post-tag jungcheoki">정처기</span>
 ```
 
 ### 4. 본문 작성

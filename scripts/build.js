@@ -57,7 +57,7 @@ function scan() {
 
       posts.push({
         title,
-        category: catMeta,        // 복수 카테고리면 "network 정처기" 형태
+        category: catMeta,         // 복수 카테고리면 "network jungcheoki" 형태
         date,
         path: `content/posts/${category}/${file}`,
         pinned

@@ -7,7 +7,7 @@
   --text-primary: #1c1917; --text-secondary: #57534e; --text-muted: #a8a29e;
   --accent: #c2410c; --code-bg: #f1f0ed;
   --tag-network: #dbeafe; --tag-network-text: #1e40af;
-  --tag-정처기:  #dcfce7; --tag-정처기-text:  #166534;
+  --tag-jungcheoki:  #dcfce7; --tag-jungcheoki-text:  #166534;
   --tag-linux:   #fef3c7; --tag-linux-text:   #92400e;
   --tag-etc:     #e0e7ff; --tag-etc-text:     #3730a3;
   /* ✏️ 태그 추가할 때 여기에만 추가 */
@@ -38,7 +38,7 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pos
 /* ── Tags ── */
 .post-tag { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
 .post-tag.network { background: var(--tag-network); color: var(--tag-network-text); }
-.post-tag.정처기   { background: var(--tag-정처기);  color: var(--tag-정처기-text); }
+.post-tag.jungcheoki   { background: var(--tag-jungcheoki);  color: var(--tag-jungcheoki-text); }
 .post-tag.linux   { background: var(--tag-linux);   color: var(--tag-linux-text); }
 .post-tag.etc     { background: var(--tag-etc);     color: var(--tag-etc-text); }
 /* ✏️ 태그 추가할 때 여기에만 추가 */

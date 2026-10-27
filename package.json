@@ -6,6 +6,7 @@
     "deploy": "node scripts/deploy.js"
   },
   "dependencies": {
+    "@notionhq/client": "^5.28.0",
     "simple-git": "^3.36.0"
   }
 }

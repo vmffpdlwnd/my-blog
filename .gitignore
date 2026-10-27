@@ -13,6 +13,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Environment (비밀 값)
+.env
+
 # Node modules
 node_modules/
 

@@ -3,9 +3,11 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build.js",
-    "deploy": "node scripts/deploy.js"
+    "deploy": "node scripts/deploy.js",
+    "sync": "node --env-file=.env scripts/notion-sync.js"
   },
   "dependencies": {
+    "@notionhq/client": "^5.28.0",
     "simple-git": "^3.36.0"
   }
 }

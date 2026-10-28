@@ -12,11 +12,13 @@ HTML 기반 정적 블로그로 시작해 **포트폴리오 중심 사이트로 
 | 구분 | 상태 |
 |------|------|
 | 정적 블로그 (목록, 카테고리 필터, 정렬, 고정글) | 완료 |
-| 이력서 (현재 `etc/이력서.html` 블로그 글 형태) | 임시 — `/resume` 페이지로 분리 예정 |
-| 포트폴리오 (Home, Projects) | 예정 |
-| Blog 메뉴 분리 | 예정 |
+| 메뉴 구조 (Home / Projects / Blog / Resume), Blog 분리 | 완료 |
+| 이력서 `/resume` (A4, PDF 저장) | 완료 — 공개 범위 확정 후 내용 수정 예정 |
+| Home, Projects | 틀 완료 — 소개 문구, 기술 스택, 프로젝트 내용 작성 예정 (Home 최근 글은 연동 완료) |
+| 카테고리 키 영문화 (`jungcheoki`) | 완료 |
+| 노션 연동 (글·이미지 동기화, `npm run sync`) | 로컬 동작 완료 — 사이트 반영은 GitHub Actions 연동 후 |
+| GitHub Actions 자동 빌드·배포 | 예정 |
 | Giscus 댓글 | 예정 |
-| 노션 연동 + GitHub Actions 자동 빌드 | 예정 (마지막 단계) |
 
 ## 메뉴 구조 (목표)
 
@@ -24,7 +26,7 @@ HTML 기반 정적 블로그로 시작해 **포트폴리오 중심 사이트로 
 |------|------|------|
 | Home | 한 줄 포지셔닝 소개, 기술 스택, 대표 프로젝트 2~3개, 최근 글 | 포트폴리오 중심 첫 화면 |
 | Projects | 프로젝트 카드 목록, 상세(문제 상황, 내 역할, 구성도, 사용 기술, 성과, 트러블슈팅), GitHub 링크 | 포트폴리오 핵심 |
-| Blog | 기술 글 목록, 카테고리 필터, 정렬, 고정글, 글 본문 + Giscus 댓글 | 현재 `index.html`의 글 목록을 이 메뉴로 이동 |
+| Blog | 기술 글 목록, 카테고리 필터, 정렬, 고정글, 글 본문 + Giscus 댓글 | `blog.html` (기존 `index.html`의 글 목록을 이동) |
 | Resume | 학력, 자격증, 군 경력, 기술 스택, 프로젝트 요약 + PDF 저장 버튼 | `@media print` 적용 |
 
 ## 주요 기능 (목표)
@@ -45,7 +47,7 @@ content/posts/*.html (기존 글) ───────────────�
 - 새 글 반영: 정해진 시간마다 자동 실행 + 수동 실행 버튼
 - 빌드 실패 시 GitHub Actions 로그로 원인 확인
 
-## 노션 데이터베이스 설계 (예정)
+## 노션 데이터베이스 설계
 
 | 노션 속성 | 타입 | 역할 | 기존 대응 |
 |-----------|------|------|-----------|
@@ -54,9 +56,11 @@ content/posts/*.html (기존 글) ───────────────�
 | 카테고리 | Multi-select | 필터 버튼, 태그 | meta category |
 | 고정 | Checkbox | 상단 고정 | meta pinned |
 | 발행 | Checkbox | 체크한 글만 사이트에 공개 | (신규) |
+| 요약 | Text | 글 상단 한 줄 요약 (비워 두면 생략) | `<p class="post-subtitle">` |
 
 - 카테고리 값은 영문 키(`network`, `linux`, `jungcheoki`)로 관리하고, 화면 이름은 `assets/main.js`의 `categoryLabel`에서 매핑합니다.
 - 노션 이미지 주소는 약 1시간 뒤 만료되므로 동기화 시 내려받아 `assets/images/`에 저장하고 HTML에는 저장된 경로를 넣습니다.
+- 속성 이름(제목, 날짜, 카테고리, 고정, 발행, 요약)은 `scripts/notion-sync.js`의 `PROP`과 같아야 하고, 노션 통합(Integration)이 데이터베이스에 연결되어 있어야 합니다.
 
 ## 보안 원칙
 
@@ -74,40 +78,67 @@ content/posts/*.html (기존 글) ───────────────�
 | 빌드 | Node.js (scripts/build.js) |
 | 배포 자동화 | Node.js (scripts/deploy.js) → GitHub Actions로 전환 예정 |
 | 배포 | GitHub Pages |
-| 예정 | Notion API, Giscus |
+| 노션 연동 | Notion API (`@notionhq/client`), `scripts/notion-sync.js`, `scripts/notion-to-html.js` |
+| 예정 | Giscus, GitHub Actions |
 
 ## 파일 구조 (현재)
 
 ```
 my-blog/
-├── index.html                  ← 글 목록 메인 페이지 (Home 개편 시 Blog 메뉴로 이동 예정)
+├── index.html                  ← Home
+├── projects.html               ← Projects (갤러리 틀)
+├── blog.html                   ← Blog (글 목록, 카테고리 필터, 정렬)
+├── resume.html                 ← Resume (A4, PDF 저장)
+├── .env.example                ← 환경변수 견본 (실제 .env는 Git에 올라가지 않음)
 ├── assets/
-│   ├── common.css              ← 공통 스타일 (색상 변수, 헤더, 카테고리 태그)
-│   ├── style.css               ← index.html 스타일
+│   ├── common.css              ← 공통 스타일 (색상 변수, 헤더, 메뉴, 카테고리 태그)
+│   ├── style.css               ← 목록·hero 스타일 (Home, Projects, Blog)
+│   ├── portfolio.css           ← 포트폴리오 페이지 스타일 (Home, Projects, Resume)
 │   ├── post.css                ← 글 페이지 스타일
-│   └── main.js                 ← index.html 로직 (필터링, 정렬)
+│   ├── main.js                 ← Blog 로직 (필터링, 정렬)
+│   ├── home.js                 ← Home 최근 글 표시
+│   ├── images/                 ← 노션에서 내려받은 이미지 (notion-*, Git 제외)
+│   └── 사진.jpg                ← 이력서 프로필 사진
 ├── data/
 │   └── posts.json              ← 글 목록 데이터 (build.js 자동 생성, 직접 수정 X)
 ├── scripts/
 │   ├── build.js                ← content/posts/ 스캔 → data/posts.json 생성
+│   ├── notion-sync.js          ← 노션 글 목록 조회, 글 HTML·이미지 생성
+│   ├── notion-to-html.js       ← 노션 블록 → HTML 변환
 │   └── deploy.js               ← build + git add + commit + push 자동화
 ├── templates/
-│   └── post-template.html      ← 새 글 작성용 템플릿
+│   └── post-template.html      ← HTML 글 작성용 템플릿
 └── content/
     └── posts/
-        ├── network/            ← 네트워크
-        ├── jungcheoki/         ← 정보처리기사
-        ├── linux/              ← 리눅스
-        └── etc/                ← 기타 (이력서 등)
+        ├── network/            ← 직접 작성한 HTML 글 (카테고리별 폴더)
+        └── 카테고리/notion-*.html  ← 노션에서 생성된 글 (Git 제외)
 ```
 
 ## 시작하기
 
 ```bash
-npm install simple-git
+npm install
+Copy-Item .env.example .env     # macOS/Linux: cp .env.example .env
 ```
 
-## 글 작성 방법 (현재: HTML 직접 작성)
+`.env`에 `NOTION_TOKEN`, `NOTION_DB_ID`를 채웁니다. `.env`는 `.gitignore`에 들어 있어 커밋되지 않습니다.
+
+## 글 작성 방법 (노션)
+
+1. 노션 `블로그 글` 데이터베이스에 글을 쓰고 제목, 날짜, 카테고리(영문 키), 요약(선택)을 채웁니다.
+2. 사이트에 올릴 글만 `발행`을 체크합니다. 체크하지 않은 글은 노션에만 남습니다.
+3. 터미널에서 동기화합니다.
+
+```bash
+npm run sync      # 노션 → content/posts/카테고리/notion-*.html, assets/images/notion-*
+npm run build     # posts.json 갱신 (블로그 목록에 반영)
+```
+
+- 제목 변환: 노션 H1, H2 → `<h2>`, H3 → `<h3>`
+- 지원 블록: 제목, 문단, 목록(중첩), 코드, 인용, 콜아웃, 구분선, 표, 토글, 이미지, 링크
+- 생성된 `notion-*` 파일은 동기화할 때마다 새로 만들어지고 Git에 올라가지 않습니다. 사이트 반영은 GitHub Actions 연동(예정) 후 자동으로 이루어집니다.
+
+## 글 작성 방법 (HTML 직접 작성)
 
 ### 1. 템플릿 복사
 
@@ -145,7 +176,7 @@ cp templates/post-template.html content/posts/network/OSI7계층.html
 node scripts/deploy.js
 ```
 
-build → git add → commit → push 가 한 번에 실행됩니다.
+build → git add → commit → push 가 한 번에 실행됩니다. (노션 글은 올라가지 않습니다. 노션 글은 GitHub Actions 연동 후 반영됩니다.)
 
 빌드만 할 때:
 
@@ -158,7 +189,9 @@ node scripts/build.js
 1. `content/posts/` 안에 폴더 생성
 2. 글 작성 후 `node scripts/deploy.js`
 
-필터 버튼은 `posts.json` 기반으로 자동 생성되므로 `index.html`은 수정하지 않아도 됩니다.
+필터 버튼은 `posts.json` 기반으로 자동 생성되므로 `blog.html`은 수정하지 않아도 됩니다.
+
+노션 글은 노션의 카테고리 옵션에 영문 키를 추가하면 됩니다. 폴더는 첫 번째 카테고리 이름으로 자동 생성됩니다.
 
 ## 태그 추가 방법
 
@@ -184,6 +217,12 @@ const categoryLabel = { ..., python: '파이썬' };
 const tagClass      = { ..., python: 'python' };
 ```
 
+**3-1. `scripts/notion-sync.js` — 노션 글 태그 라벨 추가**
+
+```js
+const CATEGORY_LABEL = { ..., python: '파이썬' };
+```
+
 **4. 폴더 생성 후 배포**
 
 ```bash
@@ -193,7 +232,8 @@ node scripts/deploy.js
 
 ## 현재 동작 중인 기능
 
-- 카테고리 필터링 (복수 카테고리 지원)
-- 최신순 / 오래된순 정렬
-- 📌 pinned 글 상단 고정 (현재 `etc/이력서.html`이 고정글로 게시됨)
-- 전체 글 수 / 카테고리 수 자동 카운트
+- 메뉴 4개 (Home / Projects / Blog / Resume)
+- 카테고리 필터링 (복수 카테고리 지원), 최신순 / 오래된순 정렬, 📌 고정글, 전체 글 수 / 카테고리 수 자동 카운트
+- Home 최근 글 자동 표시
+- 이력서 A4 화면 + 브라우저 인쇄로 PDF 저장
+- 노션 연동: 발행된 글과 이미지를 HTML로 변환 (`npm run sync`)

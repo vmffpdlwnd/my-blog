@@ -13,6 +13,15 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Environment (비밀 값)
+.env
+
+# 노션에서 자동 생성되는 글 (scripts/notion-sync.js)
+content/posts/**/notion-*.html
+
+# 노션에서 내려받은 이미지
+assets/images/notion-*
+
 # Node modules
 node_modules/
 

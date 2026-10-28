@@ -1,0 +1,67 @@
+# 노션 글을 동기화하고 사이트를 빌드해서 GitHub Pages에 배포한다.
+#  - main에 push: 배포
+#  - 매일 06:00(한국시간) 자동 실행: 노션의 새 글 반영
+#  - 수동 실행: Actions 탭 → Deploy → Run workflow
+#  - Pull Request: 빌드까지만 확인 (배포하지 않음)
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 21 * * *'   # UTC 21:00 = 한국시간 06:00
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: 노션 글 동기화
+        run: node scripts/notion-sync.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+
+      - name: 글 목록(posts.json) 생성
+        run: node scripts/build.js
+
+      - name: 사이트 파일 모으기
+        run: |
+          mkdir _site
+          cp -r index.html blog.html projects.html resume.html assets content data _site/
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

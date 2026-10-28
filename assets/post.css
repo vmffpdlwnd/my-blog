@@ -32,6 +32,7 @@
 .post-body .table-heading { font-family: 'Noto Serif KR', serif; font-size: 22px; font-weight: 700; margin: 32px 0 8px; padding: 12px 14px; border-bottom: 2px solid var(--border); }
 .post-body tr:nth-child(even) td { background: #faf9f7; }
 .post-body hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.post-body img { display: block; max-width: 100%; height: auto; margin: 24px 0; border-radius: 6px; }
 
 /* ── Footer ── */
 .post-footer { max-width: 720px; margin: 0 auto; padding: 0 28px 80px; }

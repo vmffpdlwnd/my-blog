@@ -102,7 +102,7 @@ async function blockToHtml(b, ctx) {
       return `<details>\n<summary>${richToHtml(data.rich_text)}</summary>${children}\n</details>`;
     case 'image': {
       const url = data.type === 'external' ? data.external.url : data.file.url;
-      const src = await resolveImage(url, b.id);
+      const src = data.type === 'external' ? url : await resolveImage(url, b.id);   // 노션 업로드 이미지만 내려받음
       return `<img src="${escapeHtml(src)}" alt="${escapeHtml(plainText(data.caption))}" />`;
     }
     case 'bookmark':

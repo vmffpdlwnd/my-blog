@@ -12,6 +12,7 @@ const { Client, collectPaginatedAPI } = require('@notionhq/client');
 
 const fs   = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { blocksToHtml, escapeHtml } = require('./notion-to-html');
 
 // 노션 속성 이름 (노션 데이터베이스의 열 이름과 같아야 함)
@@ -29,6 +30,12 @@ const FILE_PREFIX = 'notion-';   // 노션에서 생성된 파일 표시 (.gitig
 
 // 화면에 표시할 카테고리 이름 (assets/main.js의 categoryLabel과 같게 유지)
 const CATEGORY_LABEL = { network: '네트워크', jungcheoki: '정처기', linux: '리눅스', etc: '기타' };
+const IMAGES_DIR = path.join(__dirname, '..', 'assets', 'images');
+const IMAGE_EXTS = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'avif'];
+const IMAGE_EXT_BY_TYPE = {
+  'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif',
+  'image/webp': 'webp', 'image/svg+xml': 'svg', 'image/avif': 'avif',
+};
 
 // 노션 rich text 배열 → 일반 문자열
 function plain(richText = []) {
@@ -145,8 +152,37 @@ ${bodyHtml}
 `;
 }
 
+// 노션 이미지 주소는 약 1시간 뒤 만료되므로 내려받아 assets/images/에 저장하고, HTML에는 그 경로를 쓴다
+function createImageResolver(usedImages) {
+  return async function resolveImage(url, blockId) {
+    const { pathname } = new URL(url);
+    // 같은 이미지는 같은 파일명 (주소의 서명 부분은 매번 달라서 경로만 사용)
+    const hash = crypto.createHash('sha1').update(pathname).digest('hex').slice(0, 12);
+    let ext = path.extname(pathname).slice(1).toLowerCase();
+    if (!IMAGE_EXTS.includes(ext)) ext = null;
+
+    // 이미 받아 둔 파일이면 다시 받지 않음
+    if (ext && fs.existsSync(path.join(IMAGES_DIR, `${FILE_PREFIX}${hash}.${ext}`))) {
+      usedImages.add(`${FILE_PREFIX}${hash}.${ext}`);
+      return `../../../assets/images/${FILE_PREFIX}${hash}.${ext}`;
+    }
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`이미지 다운로드 실패 (${res.status}), 블록 ${blockId}`);
+    const type = (res.headers.get('content-type') || '').split(';')[0].trim();
+    ext = ext || IMAGE_EXT_BY_TYPE[type];
+    if (!ext) throw new Error(`지원하지 않는 이미지 형식 (${type}), 블록 ${blockId}`);
+
+    const name = `${FILE_PREFIX}${hash}.${ext}`;
+    fs.mkdirSync(IMAGES_DIR, { recursive: true });
+    fs.writeFileSync(path.join(IMAGES_DIR, name), Buffer.from(await res.arrayBuffer()));
+    usedImages.add(name);
+    return `../../../assets/images/${name}`;   // 글 페이지(content/posts/카테고리/) 기준 경로
+  };
+}
+
 // 이전에 생성된 노션 글 파일 삭제 (노션에서 발행 취소/삭제한 글이 남지 않게)
-function removeOldNotionFiles() {
+function removeOldNotionFiles(usedImages = new Set()) {
   if (!fs.existsSync(POSTS_DIR)) return;
   for (const dir of fs.readdirSync(POSTS_DIR)) {
     const dirPath = path.join(POSTS_DIR, dir);
@@ -157,6 +193,15 @@ function removeOldNotionFiles() {
       }
     }
   }
+  
+  // 더 이상 쓰지 않는 노션 이미지 삭제
+  if (fs.existsSync(IMAGES_DIR)) {
+    for (const file of fs.readdirSync(IMAGES_DIR)) {
+      if (file.startsWith(FILE_PREFIX) && !usedImages.has(file)) {
+        fs.unlinkSync(path.join(IMAGES_DIR, file));
+      }
+    }
+  }
 }
 
 // 발행된 글 전체를 HTML 파일로 생성
@@ -164,17 +209,20 @@ async function syncPosts() {
   const posts  = await fetchPosts();
   const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
+  const usedImages   = new Set();
+  const resolveImage = createImageResolver(usedImages);
+
   // 전부 변환에 성공한 뒤에 파일을 쓴다 (중간에 실패해도 기존 파일이 지워지지 않게)
   const outputs = [];
   for (const post of posts) {
     const blocks = await fetchBlocks(notion, post.id);
-    const body   = await blocksToHtml(blocks);
+    const body   = await blocksToHtml(blocks, { resolveImage });
     const folder = (post.category.split(' ')[0] || 'etc').replace(/[\\/:*?"<>|.]/g, '_');
     const file   = `${FILE_PREFIX}${post.id.replace(/-/g, '').slice(0, 8)}.html`;
     outputs.push({ post, folder, file, html: renderPage(post, body) });
   }
 
-  removeOldNotionFiles();
+  removeOldNotionFiles(usedImages);
   for (const o of outputs) {
     const dir = path.join(POSTS_DIR, o.folder);
     fs.mkdirSync(dir, { recursive: true });

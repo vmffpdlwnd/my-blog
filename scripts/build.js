@@ -33,10 +33,7 @@ function getTitle(html) {
 function scan() {
   const posts = [];
 
-  if (!fs.existsSync(POSTS_DIR)) {
-    console.error('posts/ 폴더가 없습니다.');
-    process.exit(1);
-  }
+  fs.mkdirSync(POSTS_DIR, { recursive: true });
 
   const categories = fs.readdirSync(POSTS_DIR).filter(name => {
     return fs.statSync(path.join(POSTS_DIR, name)).isDirectory();
@@ -71,6 +68,7 @@ function scan() {
     return new Date(b.date) - new Date(a.date);
   });
 
+  fs.mkdirSync(path.dirname(OUTPUT), { recursive: true });
   fs.writeFileSync(OUTPUT, JSON.stringify(posts, null, 2), 'utf-8');
   console.log(`✅ data/posts.json 생성 완료 (${posts.length}개 글)`);
   posts.forEach(p => console.log(`   - [${p.category}] ${p.title} (${p.date})`));

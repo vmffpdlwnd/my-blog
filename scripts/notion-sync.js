@@ -143,6 +143,24 @@ function renderPage(post, bodyHtml) {
 ${bodyHtml}
   </article>
 
+    <section class="comments">
+    <script src="https://giscus.app/client.js"
+      data-repo="vmffpdlwnd/my-blog"
+      data-repo-id="R_kgDOSkoXTA"
+      data-category="Announcements"
+      data-category-id="DIC_kwDOSkoXTM4DKHva"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang="ko"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </section>
+
   <div class="post-footer">
     <a class="back-btn" href="../../../blog.html">← 목록으로 돌아가기</a>
   </div>

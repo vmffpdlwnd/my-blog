@@ -38,3 +38,7 @@
 .post-footer { max-width: 720px; margin: 0 auto; padding: 0 28px 80px; }
 .back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text-secondary); font-size: 13px; text-decoration: none; transition: all 0.15s; }
 .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+
+/* ── Comments (Giscus) ── */
+.comments { max-width: 720px; margin: 0 auto; padding: 0 28px 48px; }

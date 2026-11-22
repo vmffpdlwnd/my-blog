@@ -44,6 +44,7 @@ AI(Claude)가 이 저장소에서 작업하기 전에 가장 먼저 읽는 안�
 | --- | --- |
 | Home (소개, 핵심 역량, 기술 스택, 대표 프로젝트, 최근 글) | `index.html`, 최근 글은 `assets/home.js` |
 | Projects (프로젝트 카드) | `pages/projects.html` |
+| 프로젝트 상세 (개요, 문제 상황, 역할, 구성도, 기술, 성과, 트러블슈팅) | `pages/project-*.html` 4개. 본문은 `assets/post.css`, 구성도(인라인 SVG)는 `assets/portfolio.css`의 `.diagram` |
 | Blog (글 목록, 카테고리 필터, 정렬, 고정글) | `pages/blog.html` + `assets/main.js` |
 | Resume (A4 화면, PDF 저장) | `pages/resume.html`, 인쇄 스타일은 `assets/portfolio.css`의 `@media print` |
 | 공통 스타일 (색상 변수, 헤더, 메뉴, 카테고리 태그) | `assets/common.css` |
@@ -62,7 +63,7 @@ AI(Claude)가 이 저장소에서 작업하기 전에 가장 먼저 읽는 안�
 | 폴더 | 역할 |
 | --- | --- |
 | root | `index.html`(Home, GitHub Pages 첫 화면이라 root에 있어야 한다), 설정 파일, 문서 |
-| `pages/` | Home을 뺀 페이지 (blog, projects, resume) |
+| `pages/` | Home을 뺀 페이지 (blog, projects, resume, 프로젝트 상세 `project-*`) |
 | `assets/` | css, js, 이미지. `assets/images/notion-*`는 노션에서 내려받은 이미지 (Git 제외) |
 | `content/posts/` | 글 HTML. `notion-*.html`은 노션에서 생성 (Git 제외) |
 | `data/` | `posts.json` (빌드 때 생성, Git 제외) |

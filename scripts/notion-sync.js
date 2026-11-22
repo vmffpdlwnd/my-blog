@@ -91,7 +91,7 @@ async function fetchBlocks(notion, blockId) {
   return blocks;
 }
 
-// 글 1개 → 전체 HTML 페이지 (templates/post-template.html과 같은 형식)
+// 글 1개 → 전체 HTML 페이지
 function renderPage(post, bodyHtml) {
   const tags = post.category.split(' ').map(c =>
     `<span class="post-tag ${escapeHtml(c)}">${escapeHtml(CATEGORY_LABEL[c] || c)}</span>`
@@ -122,9 +122,9 @@ function renderPage(post, bodyHtml) {
       <a class="logo" href="../../../index.html">dev<em>.</em>log</a>
       <nav class="site-nav">
         <a href="../../../index.html">Home</a>
-        <a href="../../../projects.html">Projects</a>
-        <a href="../../../blog.html" class="active">Blog</a>
-        <a href="../../../resume.html">Resume</a>
+        <a href="../../../pages/projects.html">Projects</a>
+        <a href="../../../pages/blog.html" class="active">Blog</a>
+        <a href="../../../pages/resume.html">Resume</a>
       </nav>
     </div>
   </header>
@@ -162,7 +162,7 @@ ${bodyHtml}
   </section>
 
   <div class="post-footer">
-    <a class="back-btn" href="../../../blog.html">← 목록으로 돌아가기</a>
+    <a class="back-btn" href="../../../pages/blog.html">← 목록으로 돌아가기</a>
   </div>
 
 </body>

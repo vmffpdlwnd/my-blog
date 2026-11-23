@@ -56,6 +56,16 @@
 .resume-section p:last-child { margin-bottom: 0; }
 .resume-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .resume-cols h3 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.resume-info a { color: inherit; }
+.resume-stack { list-style: none; font-size: 14px; color: var(--text-secondary); line-height: 1.9; }
+.resume-stack span { display: inline-block; width: 64px; font-weight: 500; color: var(--text-primary); }
+.resume-project { margin-bottom: 16px; }
+.resume-project:last-child { margin-bottom: 0; }
+.resume-project-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+.resume-project-head h3 { font-size: 15px; font-weight: 600; }
+.resume-project-head small { margin-left: 6px; font-size: 12px; font-weight: 400; color: var(--text-muted); }
+.resume-project-head span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+.resume-project ul { padding-left: 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
 .resume-actions { width: 210mm; max-width: calc(100% - 56px); margin: 24px auto 0; display: flex; justify-content: flex-end; }
 .print-btn { padding: 8px 18px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text-secondary); font-family: 'Noto Sans KR', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; }
 .print-btn:hover { border-color: var(--accent); color: var(--accent); }
@@ -65,6 +75,7 @@
   .resume-sheet { padding: 24px; min-height: auto; }
   .resume-top { flex-direction: column-reverse; }
   .resume-cols { grid-template-columns: 1fr; }
+  .resume-project-head { flex-direction: column; gap: 2px; }
 }
 
 
@@ -76,4 +87,8 @@
   body { background: #fff; min-height: auto; }
   .resume-sheet { width: auto; max-width: none; min-height: auto; margin: 0; padding: 0; border: none; }
   .resume-section { break-inside: avoid; }
+  /* 프로젝트 섹션은 길어서 통째로 넘기지 않고 프로젝트 단위로 나눈다 */
+  .resume-section:has(.resume-project) { break-inside: auto; }
+  .resume-section h2 { break-after: avoid; }
+  .resume-project { break-inside: avoid; }
 }

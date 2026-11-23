@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardClickerRPG | dev.log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/common.css" />
+  <link rel="stylesheet" href="../../assets/post.css" />
+  <link rel="stylesheet" href="../../assets/portfolio.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a class="logo" href="../../index.html">dev<em>.</em>log</a>
+      <nav class="site-nav">
+        <a href="../../index.html">Home</a>
+        <a href="../projects.html" class="active">Projects</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../resume.html">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="post-header">
+    <p class="detail-stack">C# · .NET · AWS Lambda · DynamoDB · PlayFab</p>
+    <h1 class="post-title">CardClickerRPG</h1>
+    <p class="post-subtitle">AWS Lambda와 DynamoDB로 서버 없이 백엔드를 구성한 콘솔 카드 RPG</p>
+    <div class="card-links detail-links">
+      <a class="card-link" href="https://github.com/vmffpdlwnd/CardClickerRPG" target="_blank" rel="noopener">GitHub →</a>
+      <a class="card-link" href="https://github.com/vmffpdlwnd/CardClickerRPG/releases" target="_blank" rel="noopener">Download →</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <article class="post-body">
+
+    <h2>개요</h2>
+    <p>클릭으로 재화를 모아 카드를 얻고, 덱을 강화해 전투력 랭킹을 겨루는 C# 콘솔 RPG입니다. 서버를 직접 띄우지 않고 <strong>AWS Lambda와 DynamoDB로 서버리스 백엔드</strong>를 구성했습니다.</p>
+
+    <h2>문제 상황</h2>
+    <p>처음에는 클라이언트가 AWS SDK로 DynamoDB에 바로 접근했습니다. 이 방식은 클라이언트에 AWS 자격 증명이 들어가야 해서, 배포하는 순간 키가 노출됩니다.</p>
+
+    <h2>내 역할</h2>
+    <p>혼자 진행했습니다. 게임 로직, 클라이언트, 백엔드 구성을 모두 맡았습니다.</p>
+    <ul>
+      <li>카드 등급(common~legendary)과 능력(자동 클릭, 클릭 배율, 가루 보너스, 강화 할인, 행운), 덱 자동 편성, 강화와 분해를 만들었습니다.</li>
+      <li>데이터 통신을 기능별 Lambda Function URL(플레이어 조회·생성·수정, 카드 조회·추가·삭제·강화 등 10개)로 나눴습니다.</li>
+      <li>PlayFab으로 로그인과 덱 전투력 리더보드를 붙였습니다.</li>
+    </ul>
+
+    <h2>구성도</h2>
+    <figure class="diagram">
+      <svg viewBox="0 0 680 250" role="img" aria-label="CardClickerRPG 구성도: 클라이언트는 AWS 키 없이 Lambda URL만 호출한다">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>
+        <rect class="node accent" x="20" y="95" width="170" height="70" rx="8"/><text class="t" x="105.0" y="122.0">콘솔 클라이언트</text><text class="s" x="105.0" y="142.0">C# .NET</text><line class="edge" x1="190" y1="115" x2="270" y2="55" marker-end="url(#ah)"/><text class="l" x="215" y="70">로그인 · 랭킹</text><rect class="node" x="270" y="20" width="170" height="65" rx="8"/><text class="t" x="355.0" y="44.5">PlayFab</text><text class="s" x="355.0" y="64.5">계정 · 리더보드</text><line class="edge" x1="190" y1="145" x2="270" y2="195" marker-end="url(#ah)"/><text class="l" x="215" y="192">HTTPS</text><rect class="node" x="270" y="165" width="170" height="65" rx="8"/><text class="t" x="355.0" y="189.5">Lambda Function URLs</text><text class="s" x="355.0" y="209.5">기능별 10개</text><line class="edge" x1="440" y1="197" x2="510" y2="197" marker-end="url(#ah)"/><rect class="node" x="510" y="165" width="150" height="65" rx="8"/><text class="t" x="585.0" y="189.5">DynamoDB</text><text class="s" x="585.0" y="209.5">플레이어 · 카드</text>
+      </svg>
+      <figcaption>CardClickerRPG 구성도: 클라이언트는 AWS 키 없이 Lambda URL만 호출한다</figcaption>
+    </figure>
+
+    <h2>사용 기술</h2>
+    <table>
+      <tr><td>클라이언트</td><td>C#, .NET 9 (콘솔)</td></tr>
+      <tr><td>백엔드</td><td>AWS Lambda (Function URLs), Amazon DynamoDB</td></tr>
+      <tr><td>계정·랭킹</td><td>PlayFab</td></tr>
+      <tr><td>배포</td><td>GitHub Releases (self-contained 단일 exe)</td></tr>
+    </table>
+
+    <h2>성과</h2>
+    <ul>
+      <li>클라이언트에서 AWS 자격 증명을 완전히 없앴습니다.</li>
+      <li>서버를 상시 운영하지 않고 요청이 올 때만 실행되는 구조로 만들었습니다.</li>
+      <li>.NET을 설치하지 않아도 실행되는 단일 exe로 GitHub Releases에 배포했습니다.</li>
+    </ul>
+
+    <h2>트러블슈팅</h2>
+    <h3>클라이언트에 들어간 AWS 키를 없애기까지</h3>
+    <p>DynamoDB 직접 접근 방식은 키 노출 문제 때문에 바꿔야 했습니다. 먼저 PlayFab CloudScript로 옮겨 봤다가 걷어 냈고, 이후 Lambda로 통신 계층(<code>LambdaService</code>)을 분리하고, 마지막에 기능별 Lambda Function URL로 전환하면서 <code>DynamoDBService</code>를 제거했습니다. 클라이언트는 이제 URL만 알고, DynamoDB 접근 권한은 Lambda만 가집니다.</p>
+    <h3>설정 파일이 통째로 무시되던 문제</h3>
+    <p>AWS 자격 증명 폴더(<code>.aws/</code>)를 제외하려던 <code>.gitignore</code> 규칙이 <code>Config</code> 폴더까지 제외하고 있었습니다. 규칙을 고쳐 비밀 값만 빠지고 설정 코드는 올라가게 했습니다.</p>
+
+  </article>
+
+  <div class="post-footer">
+    <a class="back-btn" href="../projects.html">← 프로젝트 목록으로</a>
+  </div>
+
+</body>
+</html>

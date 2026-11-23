@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi_Ttt | dev.log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/common.css" />
+  <link rel="stylesheet" href="../../assets/post.css" />
+  <link rel="stylesheet" href="../../assets/portfolio.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a class="logo" href="../../index.html">dev<em>.</em>log</a>
+      <nav class="site-nav">
+        <a href="../../index.html">Home</a>
+        <a href="../projects.html" class="active">Projects</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../resume.html">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="post-header">
+    <p class="detail-stack">C# · WinForms · Node.js · Express · Socket.IO</p>
+    <h1 class="post-title">Multi_Ttt</h1>
+    <p class="post-subtitle">말이 3개까지만 남는 틱택토와 Socket.IO 온라인 대전 서버</p>
+    <div class="card-links detail-links">
+      <a class="card-link" href="https://github.com/vmffpdlwnd/Multi_Ttt" target="_blank" rel="noopener">GitHub →</a>
+      <a class="card-link" href="https://github.com/vmffpdlwnd/Multi_Ttt/releases" target="_blank" rel="noopener">Download →</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <article class="post-body">
+
+    <h2>개요</h2>
+    <p>자기 말을 3개까지만 둘 수 있고, 4번째 수를 두면 가장 오래된 말이 사라지는 틱택토입니다. 로컬 2인, AI 대전, 온라인 대전을 지원하고, 온라인 대전용 Node.js 서버를 클라우드 VM에 직접 배포했습니다.</p>
+
+    <h2>문제 상황</h2>
+    <ul>
+      <li>일반 틱택토는 금방 무승부로 끝나서, 말이 사라지는 규칙으로 판을 계속 움직이게 하고 싶었다</li>
+      <li>온라인 대전에서는 두 사람의 보드와 턴이 항상 같아야 한다</li>
+    </ul>
+
+    <h2>내 역할</h2>
+    <p>혼자 진행했습니다.</p>
+    <ul>
+      <li>선입선출 규칙, 승패 판정, 기본 AI를 만들었습니다.</li>
+      <li>Socket.IO로 서버와 연결하고, 서버가 정한 플레이어 번호(1P/2P)로 턴을 관리합니다. 보드, 턴, 승자는 서버가 보내 주는 상태로 화면을 그립니다.</li>
+      <li>다음에 사라질 말의 위치를 서버에서 받아 주황색으로 미리 보여 줍니다.</li>
+      <li>상대의 입장(<code>game_start</code>)과 퇴장(<code>player_disconnected</code>)을 처리합니다.</li>
+    </ul>
+
+    <h2>구성도</h2>
+    <figure class="diagram">
+      <svg viewBox="0 0 680 210" role="img" aria-label="Multi_Ttt 구성도: 온라인 대전은 서버가 보드와 턴을 관리한다">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z"/></marker></defs>
+        <rect class="node" x="20" y="70" width="170" height="70" rx="8"/><text class="t" x="105.0" y="97.0">WinForms 클라이언트</text><text class="s" x="105.0" y="117.0">1P</text><line class="edge" x1="190" y1="105" x2="255" y2="105" marker-end="url(#ah)" marker-start="url(#ah)"/><text class="l" x="222.5" y="97.0">Socket.IO</text><rect class="node accent" x="255" y="60" width="170" height="90" rx="8"/><text class="t" x="340.0" y="97.0">Node.js 서버</text><text class="s" x="340.0" y="117.0">Express · Socket.IO</text><text class="s" x="340.0" y="133.0">클라우드 VM</text><line class="edge" x1="425" y1="105" x2="490" y2="105" marker-end="url(#ah)" marker-start="url(#ah)"/><text class="l" x="457.5" y="97.0">Socket.IO</text><rect class="node" x="490" y="70" width="170" height="70" rx="8"/><text class="t" x="575.0" y="97.0">WinForms 클라이언트</text><text class="s" x="575.0" y="117.0">2P</text><rect class="node" x="20" y="165" width="640" height="36" rx="8"/><text class="t" x="340.0" y="188.0">로컬 2인 · AI 대전은 서버 없이 클라이언트 안에서 동작</text>
+      </svg>
+      <figcaption>Multi_Ttt 구성도: 온라인 대전은 서버가 보드와 턴을 관리한다</figcaption>
+    </figure>
+
+    <h2>사용 기술</h2>
+    <table>
+      <tr><td>클라이언트</td><td>C#, Windows Forms, SocketIOClient</td></tr>
+      <tr><td>서버</td><td>Node.js, Express, Socket.IO</td></tr>
+      <tr><td>배포</td><td>클라우드 VM (서버), GitHub Releases (클라이언트 exe)</td></tr>
+    </table>
+
+    <h2>성과</h2>
+    <ul>
+      <li>서버를 직접 클라우드에 띄워 다른 PC끼리 실시간 대전을 할 수 있게 했습니다.</li>
+      <li>로컬 2인과 AI 대전은 서버 없이도 플레이할 수 있습니다.</li>
+    </ul>
+
+    <h2>트러블슈팅</h2>
+    <h3>다시 시작하면 이전 판의 값이 남는 문제</h3>
+    <p>새 게임을 시작해도 다음에 사라질 말 정보가 이전 판의 값으로 남아 있었습니다. 게임 데이터를 지우는 <code>ResetGameData</code>에 빠진 변수를 추가하고, 게임을 시작할 때마다 이 함수를 먼저 부르도록 바꿔 항상 깨끗한 상태에서 시작하게 했습니다.</p>
+
+  </article>
+
+  <div class="post-footer">
+    <a class="back-btn" href="../projects.html">← 프로젝트 목록으로</a>
+  </div>
+
+</body>
+</html>

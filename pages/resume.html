@@ -35,6 +35,8 @@
         <ul class="resume-info">
           <li>거주지: 경기도 수원시</li>
           <li>이메일: leegunehee@gmail.com</li>
+          <li>GitHub: <a href="https://github.com/vmffpdlwnd" target="_blank" rel="noopener">github.com/vmffpdlwnd</a></li>
+          <li>포트폴리오: <a href="https://vmffpdlwnd.github.io/my-blog" target="_blank" rel="noopener">vmffpdlwnd.github.io/my-blog</a></li>
         </ul>
       </div>
       <div class="resume-photo">
@@ -43,8 +45,72 @@
     </div>
 
     <section class="resume-section">
-      <h2>군복무</h2>
-      <p>2019.10 ~ 2021.05 육군 병장, 전산병</p>
+      <h2>기술 스택</h2>
+      <ul class="resume-stack">
+        <li><span>서버</span>Java, Spring Boot, Node.js, C#</li>
+        <li><span>데이터</span>Redis, MySQL, DynamoDB</li>
+        <li><span>인프라</span>AWS EC2, ALB, Lambda, Docker, GitHub Actions, Oracle Cloud (Linux)</li>
+      </ul>
+    </section>
+
+    <section class="resume-section">
+      <h2>프로젝트</h2>
+
+      <div class="resume-project">
+        <div class="resume-project-head">
+          <h3>우리의 마블 <small>팀 5명</small></h3>
+          <span>2026.09 ~ 2026.10</span>
+        </div>
+        <ul>
+          <li>2~4인 실시간 온라인 보드게임의 Spring Boot 게임 서버 (서버 권위 구조, ALB + EC2 다중 서버)</li>
+          <li>담당: 경제·부동산 로직, 게임 진행·봇·AFK 타이머</li>
+          <li>AFK 타이머를 Redis(Sorted Set, Lua)로 옮겨 서버 한 대가 죽어도 게임이 이어지게 함</li>
+          <li>동시 접속 1000명 p95: 로그인 3.89s → 153ms, 채팅 2.68s → 11ms, 락 대기 스레드 176 → 0</li>
+        </ul>
+      </div>
+
+      <div class="resume-project">
+        <div class="resume-project-head">
+          <h3>우리의 마블 개인 확장 <small>개인</small></h3>
+          <span>2026.10 ~ 진행 중</span>
+        </div>
+        <ul>
+          <li>팀 프로젝트를 포크해 전용 서버 없이 방장이 판정하는 구조로 전환 (Unity, Photon Fusion, PlayFab)</li>
+          <li>방장 승계와 자동 재입장으로 방장이 나가거나 연결이 끊겨도 게임 유지, 웹·Windows 배포</li>
+        </ul>
+      </div>
+
+      <div class="resume-project">
+        <div class="resume-project-head">
+          <h3>CardClickerRPG <small>개인</small></h3>
+          <span>2025.12</span>
+        </div>
+        <ul>
+          <li>C# 콘솔 카드 RPG의 백엔드를 AWS Lambda Function URL과 DynamoDB로 서버리스 구성</li>
+          <li>클라이언트가 DynamoDB에 직접 접근하던 구조를 바꿔 AWS 자격 증명을 클라이언트에서 제거</li>
+        </ul>
+      </div>
+
+      <div class="resume-project">
+        <div class="resume-project-head">
+          <h3>Multi_Ttt <small>개인</small></h3>
+          <span>2026.01</span>
+        </div>
+        <ul>
+          <li>말이 3개까지만 남는 틱택토, Node.js + Socket.IO 대전 서버를 클라우드 VM에 직접 배포</li>
+          <li>클라이언트는 C# WinForms, 로컬 2인·AI 대전 지원</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>교육</h2>
+      <p>내일배움캠프 단기심화 9기 · 최종 프로젝트 "우리의 마블" (2026.09 ~ 2026.10)</p>
+    </section>
+
+    <section class="resume-section">
+      <h2>학력</h2>
+      <p>4년제 정보통신학 졸업 (2026.02)</p>
     </section>
 
     <section class="resume-section">
@@ -53,7 +119,6 @@
         <div>
           <h3>보유 자격</h3>
           <p>
-            4년제 정보통신학 졸업(2026-02-13)<br />
             네트워크 관리사 2급(2026-03-17)<br />
             운전면허 1,2종(2026-03)<br />
             OPIC IL(2024.05)<br />
@@ -70,10 +135,16 @@
     </section>
 
     <section class="resume-section">
+      <h2>군복무</h2>
+      <p>2019.10 ~ 2021.05 육군 병장, 전산병</p>
+    </section>
+
+    <section class="resume-section">
       <h2>자기 소개</h2>
-      <p>어릴적 영화 속 해커가 시스템을 장악하는 장면을 보며 보안에 관심을 갖기 시작했습니다. 공부할수록 보안이 단독으로 존재하는 것이 아니라 인프라 위에서 작동한다는 것을 알게되었고, 그 아래를 받치는 인프라가 얼마나 중요한지 깨닫았습니다.</p>
-      <p>군 복무 중에는 전산병으로 근무하며 처음으로 실제 운영 중인 서버실을 접했습니다. 여러 개의 서버랙이 가득 찬 공간에서 온도와 습도가 실시간으로 관리되고, 적외선 카메라로 내부 상태를 모니터링 하는 모습을 보며 서버 운영이 단순히 장비를 켜두는 것이 아니라 환경 전체를 통제하는 일임을 알게되었습니다. 보안을 위해 서버 PC의 비밀번호를 불규칙한 문자와 기호로 주기적으로 변경하는 작업을 곁에서 지켜보며 인프라 운영에서 보안 관리가 얼마나 세심하게 이루어지는지도 직접 확인했습니다. 수십 대의 PC를 교체하고 관리하는 작업을 담당하며 장비를 체계적으로 다루는 경험도 쌓았습니다.</p>
-      <p>제대 후에는 인프라 엔지니어를 목표로 방향을 잡고 네트워크를 공부하기 시작했습니다. 그 결과 네트워크관리사 2급 자격증을 취득했으며, 서버를 구축하고 운영하는 쪽에 흥미를 느끼며 Oracle Cloud에서 Linux CLI 환경으로 서버를 직접 운영하며 실력을 키우고 있습니다. 정보처리기사 취득도 준비중입니다.</p>
+      <p>어릴 적 영화 속 해커가 시스템을 장악하는 장면을 보며 보안에 관심을 갖기 시작했습니다. 공부할수록 보안이 단독으로 존재하는 것이 아니라 인프라 위에서 작동한다는 것을 알게 되었고, 그 아래를 받치는 인프라가 얼마나 중요한지 깨달았습니다.</p>
+      <p>군 복무 중에는 전산병으로 근무하며 처음으로 실제 운영 중인 서버실을 접했습니다. 여러 개의 서버랙이 가득 찬 공간에서 온도와 습도가 실시간으로 관리되고, 적외선 카메라로 내부 상태를 모니터링하는 모습을 보며 서버 운영이 단순히 장비를 켜 두는 것이 아니라 환경 전체를 통제하는 일임을 알게 되었습니다. 보안을 위해 서버 PC의 비밀번호를 불규칙한 문자와 기호로 주기적으로 변경하는 작업을 곁에서 지켜보며 인프라 운영에서 보안 관리가 얼마나 세심하게 이루어지는지도 직접 확인했습니다. 수십 대의 PC를 교체하고 관리하는 작업을 담당하며 장비를 체계적으로 다루는 경험도 쌓았습니다.</p>
+      <p>제대 후에는 인프라 엔지니어를 목표로 방향을 잡고 네트워크를 공부하기 시작했습니다. 그 결과 네트워크관리사 2급 자격증을 취득했으며, 서버를 구축하고 운영하는 쪽에 흥미를 느끼며 Oracle Cloud에서 Linux CLI 환경으로 서버를 직접 운영하며 실력을 키우고 있습니다. 정보처리기사 취득도 준비 중입니다.</p>
+      <p>내일배움캠프 최종 프로젝트에서는 게임 서버를 로드 밸런서 뒤에 여러 대로 늘리면서, 한 서버의 메모리에만 있던 타이머가 서버 장애와 함께 사라지는 문제를 Redis로 옮겨 해결했습니다. 동시 접속 1000명 부하 테스트로 락 대기 병목을 찾아 응답 시간을 초 단위에서 수십 ms로 줄이며, 서비스가 멈추지 않게 만드는 일이 결국 구조와 측정에서 나온다는 것을 배웠습니다.</p>
     </section>
   </main>
 

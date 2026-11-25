@@ -1,7 +1,7 @@
 # 노션 글을 동기화하고 사이트를 빌드해서 GitHub Pages에 배포한다.
 #  - main에 push: 배포
-#  - 매일 06:00(한국시간) 자동 실행: 노션의 새 글 반영
-#  - 수동 실행: Actions 탭 → Deploy → Run workflow
+#  - 매일 06:00(한국시간) 자동 실행: scheduled-deploy.yml이 이 워크플로를 main으로 실행한다
+#  - 수동 실행: Actions 탭 → Deploy → Run workflow (브랜치는 main 선택)
 #  - Pull Request: 빌드까지만 확인 (배포하지 않음)
 name: Deploy
 
@@ -9,8 +9,6 @@ on:
   push:
     branches: [main]
   pull_request:
-  schedule:
-    - cron: '0 21 * * *'   # UTC 21:00 = 한국시간 06:00
   workflow_dispatch:
 
 permissions:

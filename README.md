@@ -21,7 +21,7 @@
 | 프론트엔드 | HTML / CSS / JS |
 | 글 작성 | 노션 (Notion API, `@notionhq/client`) |
 | 빌드 | Node.js (`scripts/notion-sync.js`, `scripts/build.js`) |
-| 배포 자동화 | GitHub Actions (`.github/workflows/deploy.yml`) |
+| 배포 자동화 | GitHub Actions (`.github/workflows/deploy.yml`, `scheduled-deploy.yml`) |
 | 배포 | GitHub Pages |
 | 댓글 | Giscus (GitHub Discussions) |
 
@@ -50,7 +50,9 @@ my-blog/
 │   ├── notion-sync.js          ← 노션 글 목록 조회, 글 HTML·이미지 생성
 │   └── notion-to-html.js       ← 노션 블록 → HTML 변환
 ├── docs/                       ← 기획서, 작업규칙, 작업현황 (사이트에 배포되지 않음)
-├── .github/workflows/deploy.yml ← 노션 동기화 → 빌드 → Pages 배포
+├── .github/workflows/
+│   ├── deploy.yml              ← 노션 동기화 → 빌드 → Pages 배포
+│   └── scheduled-deploy.yml    ← 매일 06:00 Deploy를 main으로 실행
 ├── .env.example                ← 환경변수 견본 (실제 .env는 Git에 올라가지 않음)
 └── CLAUDE.md
 ```
@@ -80,7 +82,7 @@ npm run build     # posts.json 갱신 (블로그 목록에 반영)
 - 제목 변환: 노션 H1, H2 → `<h2>`, H3 → `<h3>`
 - 지원 블록: 제목, 문단, 목록(중첩), 코드, 인용, 콜아웃, 구분선, 표, 토글, 이미지, 링크
 - 생성된 `notion-*` 파일은 동기화할 때마다 새로 만들어지고 Git에 올라가지 않습니다.
-- 사이트에는 `main`에 push하거나 매일 06:00(KST)에 자동 반영되며, Actions 탭의 `Run workflow`로 바로 실행할 수도 있습니다.
+- 사이트에는 `main`에 push하거나 매일 06:00(KST)에 자동 반영되며, Actions 탭의 `Run workflow`로 바로 실행할 수도 있습니다. 기본 브랜치가 `dev`이므로 수동 실행할 때는 브랜치를 `main`으로 선택합니다.
 
 ## 카테고리·태그 추가 방법
 

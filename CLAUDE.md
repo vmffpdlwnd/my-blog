@@ -57,6 +57,7 @@ AI(Claude)가 이 저장소에서 작업하기 전에 가장 먼저 읽는 안�
 | 글 목록 데이터 생성 | `scripts/build.js` → `data/posts.json` |
 | Giscus 댓글 | `scripts/notion-sync.js`의 `renderPage` 안 `<section class="comments">` |
 | 배포 (노션 동기화 → 빌드 → Pages) | `.github/workflows/deploy.yml` |
+| 매일 06:00 자동 배포 (기본 브랜치가 `dev`라서 Deploy를 `main`으로 실행시킨다) | `.github/workflows/scheduled-deploy.yml` |
 
 ### 폴더
 
